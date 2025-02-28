@@ -118,7 +118,7 @@ export const Modal: React.FC<ModalProps> = ({
                   Cancelar
                 </Button>
                 {Object.keys(actions).map((key) => (
-                  <Button size="sm" onClick={actions[key]}>
+                  <Button key={key} size="sm" onClick={actions[key]}>
                     {key}
                   </Button>
                 ))}

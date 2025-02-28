@@ -101,7 +101,7 @@ export default function MonthlySalesChart() {
     setIsOpen(false);
   }
   return (
-    <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white px-5 pt-5 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6 sm:pt-6">
+    <div className="overflow-hidden rounded-2xl relative border border-gray-200 bg-white px-5 pt-5 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6 sm:pt-6">
       <div className="flex items-center justify-between">
         <h3 className="text-lg font-semibold text-gray-800 dark:text-white/90">
           Monthly Sales
@@ -135,6 +135,9 @@ export default function MonthlySalesChart() {
         <div className="-ml-5 min-w-[650px] xl:min-w-full pl-2">
           <Chart options={options} series={series} type="bar" height={180} />
         </div>
+      </div>
+      <div className="absolute bg-white flex items-center justify-center top-0 left-0 w-full h-full opacity-80">
+        Pendiente de hacer, cuando veamos el tema de facturación
       </div>
     </div>
   );

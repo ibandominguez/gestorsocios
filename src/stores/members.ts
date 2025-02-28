@@ -77,7 +77,7 @@ export const useMembersStore = create<MembersState>((set, get) => {
         isRetired: false,
         registeredAt: "2019-06-01",
         children: [{ name: "Ana Lopez", dateOfBirth: "2015-08-20" }],
-        yearPayments: [2019, 2020, 2021, 2022, 2023],
+        yearPayments: [2019, 2020, 2021, 2022, 2023, 2025],
       },
       {
         id: 3,

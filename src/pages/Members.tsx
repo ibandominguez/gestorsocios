@@ -6,11 +6,10 @@ import PageMeta from "../components/common/PageMeta";
 import BasicTableOne from "../components/tables/BasicTables/BasicTableOne";
 import RecentOrders from "../components/ecommerce/RecentOrders";
 import { Modal } from "../components/ui/modal";
-import Button from "../components/ui/button/Button";
 import Form from "../components/Form";
 
 export default function Members(): ReactElement {
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [memberForm, setMemberForm] = useState<Partial<Member> | null>(null);
 
   return (
     <>
@@ -29,8 +28,8 @@ export default function Members(): ReactElement {
       </div>
 
       <Modal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
+        isOpen={memberForm !== null}
+        onClose={() => setMemberForm(null)}
         title="Gestionar socio"
         description="Gestiona tu socio ..."
         className="max-w-[700px] m-4"
@@ -39,6 +38,7 @@ export default function Members(): ReactElement {
         }}
       >
         <Form<Member>
+          onChange={setMemberForm}
           fields={[
             {
               label: "Número socio",

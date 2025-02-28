@@ -1,7 +1,6 @@
 import { ReactElement, useEffect, useState } from "react";
 import Button from "./ui/button/Button";
 import Input, { InputProps } from "./Input";
-import moment from "moment";
 
 export type FormField<T> = Omit<InputProps, "onChange" | "name" | "type"> & {
   name: keyof T;
@@ -50,16 +49,6 @@ export default function Form<T>({
   const setDataKey = (key: keyof T, value: string | number | undefined) => {
     setData((data) => ({ ...data, [key]: value }));
   };
-
-  useEffect(() => {
-    fields.forEach((field) => {
-      let finalValue = field.value;
-      if (field.type === "date") {
-        finalValue = moment(field.value).format("YYYY-MM-DD");
-      }
-      setDataKey(field.name, finalValue);
-    });
-  }, [fields]);
 
   useEffect(() => {
     if (onChange) onChange(data);

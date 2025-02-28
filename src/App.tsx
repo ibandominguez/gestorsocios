@@ -19,11 +19,13 @@ import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./components/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
 import Members from "./pages/Members";
+import { Toaster } from "react-hot-toast";
 
 export default function App() {
   return (
     <>
       <Router>
+        <Toaster position="bottom-right" />
         <ScrollToTop />
         <Routes>
           {/* Dashboard Layout */}

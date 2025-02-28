@@ -1,4 +1,3 @@
-import GridShape from "../../components/common/GridShape";
 import { Link } from "react-router";
 import PageMeta from "../../components/common/PageMeta";
 import image404 from "../../../public/images/error/404.svg";

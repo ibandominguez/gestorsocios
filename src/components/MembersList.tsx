@@ -3,6 +3,7 @@ import Badge from "./ui/badge/Badge";
 import { ReactElement, useMemo, useState } from "react";
 import { Member, useMembersStore } from "../stores/members";
 import Input from "./form/input/InputField";
+import Select from "./form/Select";
 
 export interface MembersListProps {
   data: Member[];
@@ -17,6 +18,7 @@ export default function MembersList({
 }: MembersListProps): ReactElement {
   const { hasMemberNotPaidFor3Years } = useMembersStore();
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [filter, setFilter] = useState<string>("");
 
   const filteredData = useMemo<Member[]>(() => {
     if (searchTerm) {
@@ -46,10 +48,17 @@ export default function MembersList({
             value={searchTerm}
           />
 
-          <button className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-theme-sm font-medium text-gray-700 shadow-theme-xs hover:bg-gray-50 hover:text-gray-800 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-white/[0.03] dark:hover:text-gray-200">
-            <span className="material-icons-outlined">tune</span>
-            Filtrar
-          </button>
+          <Select
+            className="max-w-40"
+            onChange={(value) => setFilter(value || "")}
+            placeholder="Mostrar todos"
+            options={[
+              { label: "Mostrar pendientes", value: "unpaid" },
+              { label: "Mostrar con hijos menores", value: "underAgeKids" },
+              { label: "Mostrar jubilados", value: "retired" },
+              { label: "Mostrar 3 años impago", value: "longUnpaid" },
+            ]}
+          />
         </div>
       </div>
       <div className="max-w-full overflow-x-auto">

@@ -1,7 +1,6 @@
 import { ReactElement, useState } from "react";
 import { Member } from "../stores/members";
 import PageBreadcrumb from "../components/common/PageBreadCrumb";
-import ComponentCard from "../components/common/ComponentCard";
 import PageMeta from "../components/common/PageMeta";
 import { Modal } from "../components/ui/modal";
 import Form from "../components/Form";
@@ -10,8 +9,7 @@ import { useMembersStore } from "../stores/members";
 
 export default function Members(): ReactElement {
   const [memberForm, setMemberForm] = useState<Partial<Member> | null>(null);
-  const { members, createMember, updateMember, deleteMember } =
-    useMembersStore();
+  const { members } = useMembersStore();
 
   return (
     <>
@@ -25,7 +23,7 @@ export default function Members(): ReactElement {
       <MembersList
         data={members}
         onSelectMember={setMemberForm}
-        onDeleteMember={deleteMember}
+        onDeleteMember={console.log}
       />
 
       <Modal

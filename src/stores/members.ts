@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { toast } from "react-hot-toast";
 import moment from "moment";
+// import { toast } from "react-hot-toast";
 
 export interface MemberChild {
   name: string;
@@ -24,17 +24,9 @@ export interface Member {
   yearPayments: number[];
 }
 
-export type Filters = {
-  search?: string;
-  type?: "unpaid" | "longUnpaid" | "isRetired" | "hasUnderAgeKids";
-};
-
 export interface MembersState {
   members: Member[];
   formatMember: (member: Member) => Member;
-  createMember: (member: Partial<Member>) => Promise<void>;
-  updateMember: (member: Partial<Member>) => Promise<void>;
-  deleteMember: (member: Partial<Member>) => Promise<void>;
 }
 
 export const last3Years = [
@@ -192,12 +184,13 @@ export const useMembersStore = create<MembersState>((set, get) => {
         yearPayments: [2022, 2023],
       },
     ],
-    createMember: async (member: Partial<Member>) => {},
-    updateMember: async (member: Partial<Member>) => {},
-    deleteMember: async (member: Partial<Member>) => {},
   };
 
-  set({ members: store.members.map((member) => store.formatMember(member)) });
+  set({
+    members: store.members.map((member) => store.formatMember(member)),
+  });
+
+  console.log(get());
 
   return store;
 });

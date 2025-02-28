@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router";
+import logo from "../../public/images/logo/logo.png";
 
 import {
   BoxCubeIcon,
@@ -321,14 +322,9 @@ const AppSidebar: React.FC = () => {
       >
         <Link to="/">
           {isExpanded || isHovered || isMobileOpen ? (
-            <img className="w-full" src="/images/logo/logo.png" alt="Logo" />
+            <img className="w-full" src={logo} alt="Logo" />
           ) : (
-            <img
-              src="/images/logo/logo.png"
-              alt="Logo"
-              width={40}
-              height={40}
-            />
+            <img src={logo} alt="Logo" width={40} height={40} />
           )}
         </Link>
       </div>

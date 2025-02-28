@@ -3,13 +3,15 @@ import { Member } from "../stores/members";
 import PageBreadcrumb from "../components/common/PageBreadCrumb";
 import ComponentCard from "../components/common/ComponentCard";
 import PageMeta from "../components/common/PageMeta";
-import BasicTableOne from "../components/tables/BasicTables/BasicTableOne";
-import RecentOrders from "../components/ecommerce/RecentOrders";
 import { Modal } from "../components/ui/modal";
 import Form from "../components/Form";
+import MembersList from "../components/MembersList";
+import { useMembersStore } from "../stores/members";
 
 export default function Members(): ReactElement {
   const [memberForm, setMemberForm] = useState<Partial<Member> | null>(null);
+  const { members, createMember, updateMember, deleteMember } =
+    useMembersStore();
 
   return (
     <>
@@ -20,12 +22,11 @@ export default function Members(): ReactElement {
 
       <PageBreadcrumb pageTitle="Gestión de socios" />
 
-      <div className="space-y-6">
-        <ComponentCard title="Socios">
-          <BasicTableOne />
-          <RecentOrders />
-        </ComponentCard>
-      </div>
+      <MembersList
+        data={members}
+        onSelectMember={setMemberForm}
+        onDeleteMember={deleteMember}
+      />
 
       <Modal
         isOpen={memberForm !== null}

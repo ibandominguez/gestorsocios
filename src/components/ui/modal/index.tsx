@@ -1,9 +1,13 @@
 import { useRef, useEffect } from "react";
+import Button from "../button/Button";
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   className?: string;
+  title?: string;
+  description?: string;
+  actions?: { [key: string]: () => void };
   children: React.ReactNode;
   showCloseButton?: boolean; // New prop to control close button visibility
   isFullscreen?: boolean; // Default to false for backwards compatibility
@@ -13,6 +17,9 @@ export const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
   children,
+  title = "",
+  description = "",
+  actions = {},
   className,
   showCloseButton = true, // Default to true for backwards compatibility
   isFullscreen = false,
@@ -87,7 +94,38 @@ export const Modal: React.FC<ModalProps> = ({
             </svg>
           </button>
         )}
-        <div>{children}</div>
+        <div>
+          {/* Modal header */}
+          <div className="no-scrollbar relative w-full max-w-[700px] overflow-y-auto rounded-3xl bg-white p-4 dark:bg-gray-900 lg:p-11">
+            <div className="px-2 pr-14">
+              <h4 className="mb-2 text-2xl font-semibold text-gray-800 dark:text-white/90">
+                {title}
+              </h4>
+              <p className="mb-6 text-sm text-gray-500 dark:text-gray-400 lg:mb-7">
+                {description}
+              </p>
+            </div>
+
+            {/* Modal body */}
+            <section className="flex flex-col">
+              <div className="custom-scrollbar h-[450px] overflow-y-auto px-2 pb-3">
+                {children}
+              </div>
+
+              {/* Modal footer */}
+              <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
+                <Button size="sm" variant="outline" onClick={onClose}>
+                  Cancelar
+                </Button>
+                {Object.keys(actions).map((key) => (
+                  <Button size="sm" onClick={actions[key]}>
+                    {key}
+                  </Button>
+                ))}
+              </div>
+            </section>
+          </div>
+        </div>
       </div>
     </div>
   );

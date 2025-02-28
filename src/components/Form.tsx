@@ -29,7 +29,7 @@ export type FormField<T> = Omit<InputProps, "onChange" | "name" | "type"> & {
 
 export interface FormProps<T> {
   fields: FormField<T>[];
-  buttonTitle: string;
+  buttonTitle?: string;
   buttonIcon?: string;
   className?: string;
   inputWrapperClassName?: string;
@@ -39,7 +39,7 @@ export interface FormProps<T> {
 
 export default function Form<T>({
   fields,
-  buttonTitle,
+  buttonTitle = "Send",
   className,
   inputWrapperClassName,
   onChange,

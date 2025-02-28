@@ -9,7 +9,7 @@ import { useMembersStore } from "../stores/members";
 
 export default function Members(): ReactElement {
   const [memberForm, setMemberForm] = useState<Partial<Member> | null>(null);
-  const { members } = useMembersStore();
+  const { members, updateMember, deleteMember } = useMembersStore();
 
   return (
     <>
@@ -23,7 +23,7 @@ export default function Members(): ReactElement {
       <MembersList
         data={members}
         onSelectMember={setMemberForm}
-        onDeleteMember={console.log}
+        onDeleteMember={deleteMember}
       />
 
       <Modal
@@ -33,10 +33,18 @@ export default function Members(): ReactElement {
         description="Aquí podrás actualizar la ficha del socio y todos sus campos"
         className="max-w-[700px] m-4"
         actions={{
-          Guardar: console.log,
+          Guardar: () =>
+            updateMember(memberForm as Member).then(() => {
+              setMemberForm(null);
+            }),
         }}
       >
-        <MemberForm initialValues={{ ...memberForm }} onSubmit={console.log} />
+        <MemberForm
+          initialValues={{ ...memberForm }}
+          onChange={(member) =>
+            setMemberForm((oldForm) => ({ ...oldForm, ...member }))
+          }
+        />
       </Modal>
     </>
   );

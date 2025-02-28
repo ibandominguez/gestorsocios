@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import moment from "moment";
-// import { toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 export interface MemberChild {
   name: string;
@@ -27,6 +27,8 @@ export interface Member {
 export interface MembersState {
   members: Member[];
   formatMember: (member: Member) => Member;
+  updateMember: (member: Partial<Member>) => Promise<void>;
+  deleteMember: (member: Partial<Member>) => Promise<void>;
 }
 
 export const last3Years = [
@@ -49,6 +51,24 @@ export const useMembersStore = create<MembersState>((set, get) => {
       member.isRetired =
         member.isRetired || now.diff(member.dateOfBirth, "years") >= 67;
       return member;
+    },
+    updateMember: async (member: Partial<Member>) => {
+      set({
+        members: get().members.map((old) => {
+          if (old.id === member.id) {
+            return get().formatMember({ ...old, ...member });
+          } else {
+            return old;
+          }
+        }),
+      });
+      toast.success("Socio actualizado correctamente!");
+    },
+    deleteMember: async (member: Partial<Member>) => {
+      if (window.confirm("Estas completamente segur@?")) {
+        set({ members: get().members.filter((old) => old.id !== member.id) });
+        toast.success("Socio eliminado correctamente!");
+      }
     },
     members: [
       {

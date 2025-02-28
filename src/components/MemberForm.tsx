@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { Member, MemberChild } from "../stores/members";
 import Input from "./Input";
 import MultiSelect from "./form/MultiSelect";
@@ -6,11 +6,13 @@ import moment from "moment";
 
 export interface MemberFormProps {
   initialValues: Partial<Member>;
-  onSubmit: (member: Partial<Member>) => void;
+  onChange?: (member: Partial<Member>) => void;
+  onSubmit?: (member: Partial<Member>) => void;
 }
 
 export default function MemberForm({
   initialValues = {},
+  onChange,
   onSubmit,
 }: MemberFormProps): ReactElement {
   const [form, setForm] = useState<Partial<Member>>(initialValues);
@@ -22,7 +24,7 @@ export default function MemberForm({
 
   const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmit(form);
+    onSubmit && onSubmit(form);
   };
 
   const addChild = () => {
@@ -54,6 +56,10 @@ export default function MemberForm({
       return { ...form, children: updatedChildren };
     });
   };
+
+  useEffect(() => {
+    onChange && onChange(form);
+  }, [form]);
 
   return (
     <form onSubmit={handleOnSubmit}>

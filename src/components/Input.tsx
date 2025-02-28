@@ -72,8 +72,12 @@ export default function Input(props: InputProps): ReactElement {
           required={props.required}
           placeholder={props.placeholder}
           type={props.type}
-          className={inputClassName}
-          onChange={(event) => props.onChange(event.target.value)}
+          className={props.type === "checkbox" ? "" : inputClassName}
+          onChange={(event) =>
+            props.type === "checkbox"
+              ? event.target.checked
+              : props.onChange(event.target.value)
+          }
         />
       )}
     </div>

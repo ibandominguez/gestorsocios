@@ -3,8 +3,8 @@ import { Member } from "../stores/members";
 import PageBreadcrumb from "../components/common/PageBreadCrumb";
 import PageMeta from "../components/common/PageMeta";
 import { Modal } from "../components/ui/modal";
-import Form from "../components/Form";
 import MembersList from "../components/MembersList";
+import MemberForm from "../components/MemberForm";
 import { useMembersStore } from "../stores/members";
 
 export default function Members(): ReactElement {
@@ -30,44 +30,13 @@ export default function Members(): ReactElement {
         isOpen={memberForm !== null}
         onClose={() => setMemberForm(null)}
         title="Gestionar socio"
-        description="Gestiona tu socio ..."
+        description="Aquí podrás actualizar la ficha del socio y todos sus campos"
         className="max-w-[700px] m-4"
         actions={{
           Guardar: console.log,
         }}
       >
-        <Form<Member>
-          onChange={setMemberForm}
-          fields={[
-            {
-              label: "Número socio",
-              name: "id",
-              placeholder: "Identificador único de socio",
-              type: "number",
-            },
-            {
-              label: "Nombre",
-              name: "name",
-              placeholder: "Nombre completo del socio",
-            },
-            {
-              label: "Email",
-              name: "email",
-              placeholder: "socio@email.com",
-              type: "email",
-            },
-            {
-              label: "Fecha de nacimiento",
-              name: "dateOfBirth",
-              type: "date",
-            },
-            {
-              label: "Registro",
-              name: "registeredAt",
-              type: "date",
-            },
-          ]}
-        />
+        <MemberForm initialValues={{ ...memberForm }} onSubmit={console.log} />
       </Modal>
     </>
   );

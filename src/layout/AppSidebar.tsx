@@ -103,7 +103,13 @@ const othersItems: NavItem[] = [
 ];
 
 const AppSidebar: React.FC = () => {
-  const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
+  const {
+    isExpanded,
+    isMobileOpen,
+    toggleMobileSidebar,
+    isHovered,
+    setIsHovered,
+  } = useSidebar();
   const location = useLocation();
 
   const [openSubmenu, setOpenSubmenu] = useState<{
@@ -214,6 +220,11 @@ const AppSidebar: React.FC = () => {
             nav.path && (
               <Link
                 to={nav.path}
+                onClick={() => {
+                  if (isMobileOpen) {
+                    toggleMobileSidebar();
+                  }
+                }}
                 className={`menu-item group ${
                   isActive(nav.path) ? "menu-item-active" : "menu-item-inactive"
                 }`}
@@ -341,7 +352,7 @@ const AppSidebar: React.FC = () => {
           )}
         </Link>
       </div>
-      <div className="flex flex-col h-full overflow-y-auto duration-300 ease-linear no-scrollbar">
+      <div className="flex flex-col h-full overflow-y-auto duration-300 ease-linear no-scrollbar pb-6">
         <nav className="mb-auto">
           <div className="flex flex-col gap-4">
             <div>

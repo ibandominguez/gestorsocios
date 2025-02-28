@@ -136,7 +136,7 @@ export default function MonthlySalesChart() {
           <Chart options={options} series={series} type="bar" height={180} />
         </div>
       </div>
-      <div className="absolute bg-white flex items-center justify-center top-0 left-0 w-full h-full opacity-80">
+      <div className="absolute bg-white flex items-center justify-center top-0 left-0 w-full h-full opacity-80 p-5 text-xs">
         Pendiente de hacer, cuando veamos el tema de facturación
       </div>
     </div>

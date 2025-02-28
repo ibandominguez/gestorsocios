@@ -1,9 +1,9 @@
 import { Table, TableBody, TableCell, TableHeader, TableRow } from "./ui/table";
 import Badge from "./ui/badge/Badge";
-import { ReactElement, useMemo, useState } from "react";
-import { Member, useMembersStore } from "../stores/members";
+import { ReactElement, useEffect, useState } from "react";
 import Input from "./form/input/InputField";
 import Select from "./form/Select";
+import { Member } from "../stores/members";
 
 export interface MembersListProps {
   data: Member[];
@@ -16,21 +16,33 @@ export default function MembersList({
   onSelectMember,
   onDeleteMember,
 }: MembersListProps): ReactElement {
-  const { hasMemberNotPaidFor3Years } = useMembersStore();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filter, setFilter] = useState<string>("");
+  const [filteredData, setFilteredData] = useState<Member[]>(data);
 
-  const filteredData = useMemo<Member[]>(() => {
+  useEffect(() => {
+    let newFilteredData = data;
     if (searchTerm) {
-      return data.filter((member) =>
-        [member.name, member.email, member.phone]
-          .join("")
+      newFilteredData = newFilteredData.filter((member) => {
+        return [
+          member.id,
+          member.name,
+          member.email,
+          member.phone,
+          member.idNumber,
+        ]
+          .join(" ")
           .toLowerCase()
-          .includes(searchTerm.toLowerCase()),
+          .includes(searchTerm.toLowerCase());
+      });
+    }
+    if (filter) {
+      newFilteredData = newFilteredData.filter(
+        (member) => member[filter as keyof Member],
       );
     }
-    return data;
-  }, [data, searchTerm]);
+    setFilteredData(newFilteredData);
+  }, [searchTerm, filter]);
 
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white px-4 pb-3 pt-4 dark:border-gray-800 dark:bg-white/[0.03] sm:px-6">
@@ -54,8 +66,8 @@ export default function MembersList({
             placeholder="Mostrar todos"
             options={[
               { label: "Mostrar pendientes", value: "unpaid" },
-              { label: "Mostrar con hijos menores", value: "underAgeKids" },
-              { label: "Mostrar jubilados", value: "retired" },
+              { label: "Mostrar con hijos menores", value: "hasUnderAgeKids" },
+              { label: "Mostrar jubilados", value: "isRetired" },
               { label: "Mostrar 3 años impago", value: "longUnpaid" },
             ]}
           />
@@ -129,11 +141,12 @@ export default function MembersList({
                       Retirado
                     </Badge>
                   )}
-                  {(hasMemberNotPaidFor3Years(member) && (
+                  {member.longUnpaid && (
                     <Badge size="sm" color="error">
                       3 años de impago
                     </Badge>
-                  )) || (
+                  )}
+                  {member.hasUnderAgeKids && (
                     <Badge size="sm" color="warning">
                       Hijos menores
                     </Badge>

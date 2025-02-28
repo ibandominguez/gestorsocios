@@ -90,7 +90,7 @@ export const useMembersStore = create<MembersState>((set, get) => {
         isRetired: true,
         registeredAt: "2018-03-15",
         children: [],
-        yearPayments: [2018, 2019, 2020, 2021],
+        yearPayments: [2018, 2019, 2020, 2021, 2025],
       },
       {
         id: 4,
@@ -103,7 +103,7 @@ export const useMembersStore = create<MembersState>((set, get) => {
         isRetired: true,
         registeredAt: "2017-09-10",
         children: [{ name: "Pedro Fernandez", dateOfBirth: "2000-12-01" }],
-        yearPayments: [2017, 2018, 2019, 2020, 2021, 2022],
+        yearPayments: [2017, 2018, 2019, 2020, 2021, 2022, 2025],
       },
       {
         id: 5,
@@ -129,7 +129,7 @@ export const useMembersStore = create<MembersState>((set, get) => {
         isRetired: false,
         registeredAt: "2020-05-05",
         children: [{ name: "Luis Torres", dateOfBirth: "2012-04-10" }],
-        yearPayments: [2020, 2021, 2022, 2023],
+        yearPayments: [2020, 2021, 2022, 2023, 2025],
       },
       {
         id: 7,
@@ -155,7 +155,7 @@ export const useMembersStore = create<MembersState>((set, get) => {
         isRetired: false,
         registeredAt: "2019-08-25",
         children: [{ name: "David Ruiz", dateOfBirth: "2018-11-05" }],
-        yearPayments: [2019, 2020, 2021, 2022, 2023],
+        yearPayments: [2019, 2020, 2021, 2022, 2023, 2025],
       },
       {
         id: 9,
@@ -168,7 +168,7 @@ export const useMembersStore = create<MembersState>((set, get) => {
         isRetired: true,
         registeredAt: "2015-04-18",
         children: [{ name: "Lucia Moreno", dateOfBirth: "2003-09-22" }],
-        yearPayments: [2015, 2016, 2017, 2018, 2019, 2020],
+        yearPayments: [2015, 2016, 2017, 2018, 2019, 2020, 2025],
       },
       {
         id: 10,
@@ -181,7 +181,7 @@ export const useMembersStore = create<MembersState>((set, get) => {
         isRetired: false,
         registeredAt: "2022-02-14",
         children: [],
-        yearPayments: [2022, 2023],
+        yearPayments: [2022, 2023, 2025],
       },
     ],
   };

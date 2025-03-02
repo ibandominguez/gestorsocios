@@ -1,8 +1,6 @@
 import React, { ReactElement, useEffect, useState } from "react";
 import { Member, MemberChild } from "../stores/members";
 import Input from "./Input";
-import MultiSelect from "./form/MultiSelect";
-import moment from "moment";
 
 export interface MemberFormProps {
   initialValues: Partial<Member>;
@@ -21,6 +19,43 @@ export default function MemberForm({
     (key: keyof Member) => (value: string | number | boolean) => {
       setForm((form) => ({ ...form, [key]: value }));
     };
+
+  const addPayment = () => {
+    setForm({
+      ...form,
+      payments: [
+        {
+          year: new Date().getFullYear(),
+          amount: 0,
+          date: new Date().toISOString().split("T")[0],
+        },
+        ...(form.payments || []),
+      ],
+    });
+  };
+
+  const updatePayment = (
+    index: number,
+    key: keyof { year: number; amount: number; date: string },
+    value: number | string,
+  ) => {
+    setForm((form) => {
+      const updatedPayments = [...(form.payments || [])];
+      updatedPayments[index] = {
+        ...updatedPayments[index],
+        [key]: value,
+      };
+      return { ...form, payments: updatedPayments };
+    });
+  };
+
+  const removePayment = (index: number) => {
+    setForm((form) => {
+      const updatedPayments = [...(form.payments || [])];
+      updatedPayments.splice(index, 1);
+      return { ...form, payments: updatedPayments };
+    });
+  };
 
   const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -156,19 +191,7 @@ export default function MemberForm({
         </small>
       </label>
 
-      <MultiSelect
-        label="Pagos anuales"
-        defaultSelected={form.yearPayments?.map((n) => n.toString()) || []}
-        onChange={(values) => {
-          setForm({ ...form, yearPayments: values.map((y) => parseInt(y)) });
-        }}
-        options={Array.from({ length: 11 }, (_, i) => {
-          const year = moment().year() - 9 + i;
-          return { text: year.toString(), value: year.toString() };
-        })}
-      />
-
-      <section className="p-3 bg-gray-100 rounded-md">
+      <section className="p-3 mb-3 bg-gray-100 rounded-md">
         <header className="flex items-center justify-between px-1">
           <h3>Hijos</h3>
           <span
@@ -202,6 +225,61 @@ export default function MemberForm({
             <span
               className="p-3 pt-7 text-red-500 material-icons-outlined cursor-pointer self-center"
               onClick={() => removeChild(index)}
+            >
+              delete
+            </span>
+          </div>
+        ))}
+      </section>
+
+      <section className="p-3 bg-gray-100 rounded-md">
+        <header className="flex items-center justify-between px-1">
+          <h3>Pagos</h3>
+          <span
+            onClick={() => addPayment()}
+            className="cursor-pointer material-icons-outlined"
+          >
+            add
+          </span>
+        </header>
+        {form.payments?.map((payment, index) => (
+          <div key={index} className="flex item-center">
+            <Input
+              name={`payment-year-${index}`}
+              type="number"
+              placeholder="Año de pago"
+              label="Año"
+              className="text-xs w-full"
+              value={payment.year}
+              onChange={(value) =>
+                updatePayment(index, "year", parseInt(value as string))
+              }
+            />
+            <Input
+              name={`payment-amount-${index}`}
+              type="number"
+              placeholder="P.ej. 90"
+              label="Cantidad"
+              className="text-xs w-full"
+              value={payment.amount}
+              onChange={(value) =>
+                updatePayment(index, "amount", parseFloat(value as string))
+              }
+            />
+            <Input
+              name={`payment-date-${index}`}
+              type="date"
+              placeholder="Fecha de pago"
+              label="Fecha"
+              className="text-xs w-full"
+              value={payment.date}
+              onChange={(value) =>
+                updatePayment(index, "date", value as string)
+              }
+            />
+            <span
+              className="p-3 pt-7 text-red-500 material-icons-outlined cursor-pointer self-center"
+              onClick={() => removePayment(index)}
             >
               delete
             </span>

@@ -7,6 +7,12 @@ export interface MemberChild {
   dateOfBirth: string;
 }
 
+export interface Payment {
+  date: string;
+  year: number;
+  amount: number;
+}
+
 export interface Member {
   id: number;
   number: number;
@@ -22,7 +28,7 @@ export interface Member {
   unpaid?: boolean;
   registeredAt: string;
   children: MemberChild[];
-  yearPayments: number[];
+  payments: Payment[];
 }
 
 export interface MembersState {
@@ -74,6 +80,13 @@ export const useMembersStore = create<MembersState>((set, get) => {
             errors.push("Fecha de nacimiento del hijo es requerida");
         }
       }
+      if (member.payments) {
+        for (const payment of member.payments) {
+          if (!payment.date) errors.push("La fecha del pago es requerida");
+          if (!payment.amount) errors.push("La cantidad del pago es requerida");
+          if (!payment.year) errors.push("El año del pago es requerido");
+        }
+      }
       return errors.join(", ");
     },
     formatMember: (member: Member) => {
@@ -82,9 +95,12 @@ export const useMembersStore = create<MembersState>((set, get) => {
         (child: MemberChild) => now.diff(child.dateOfBirth, "years") < 18,
       );
       member.longUnpaid = last3Years.every(
-        (year: number) => !member.yearPayments.includes(year),
+        (year: number) =>
+          !member.payments.some((payment) => payment.year === year),
       );
-      member.unpaid = !member.yearPayments.includes(now.year());
+      member.unpaid = !member.payments.some(
+        (payment) => payment.year === now.year(),
+      );
       member.isRetired =
         member.isRetired || now.diff(member.dateOfBirth, "years") >= 67;
       return member;
@@ -144,7 +160,14 @@ export const useMembersStore = create<MembersState>((set, get) => {
         children: [
           { name: "Josue Betancor Machín", dateOfBirth: "2010-03-16" },
         ],
-        yearPayments: [2020, 2021, 2022, 2023, 2024, 2025],
+        payments: [
+          { date: "2020-01-15", amount: 100, year: 2020 },
+          { date: "2021-01-15", amount: 100, year: 2021 },
+          { date: "2022-01-15", amount: 100, year: 2022 },
+          { date: "2023-01-15", amount: 100, year: 2023 },
+          { date: "2024-01-15", amount: 100, year: 2024 },
+          { date: "2025-01-15", amount: 100, year: 2025 },
+        ],
       },
       {
         id: 2,
@@ -158,7 +181,14 @@ export const useMembersStore = create<MembersState>((set, get) => {
         isRetired: false,
         registeredAt: "2019-06-01",
         children: [{ name: "Ana Lopez", dateOfBirth: "2015-08-20" }],
-        yearPayments: [2019, 2020, 2021, 2022, 2023, 2025],
+        payments: [
+          { date: "2019-06-15", amount: 100, year: 2019 },
+          { date: "2020-06-15", amount: 100, year: 2020 },
+          { date: "2021-06-15", amount: 100, year: 2021 },
+          { date: "2022-06-15", amount: 100, year: 2022 },
+          { date: "2023-06-15", amount: 100, year: 2023 },
+          { date: "2025-06-15", amount: 100, year: 2025 },
+        ],
       },
       {
         id: 3,
@@ -172,7 +202,13 @@ export const useMembersStore = create<MembersState>((set, get) => {
         isRetired: true,
         registeredAt: "2018-03-15",
         children: [],
-        yearPayments: [2018, 2019, 2020, 2021, 2025],
+        payments: [
+          { date: "2018-03-15", amount: 100, year: 2018 },
+          { date: "2019-03-15", amount: 100, year: 2019 },
+          { date: "2020-03-15", amount: 100, year: 2020 },
+          { date: "2021-03-15", amount: 100, year: 2021 },
+          { date: "2025-03-15", amount: 100, year: 2025 },
+        ],
       },
       {
         id: 4,
@@ -186,7 +222,15 @@ export const useMembersStore = create<MembersState>((set, get) => {
         isRetired: true,
         registeredAt: "2017-09-10",
         children: [{ name: "Pedro Fernandez", dateOfBirth: "2000-12-01" }],
-        yearPayments: [2017, 2018, 2019, 2020, 2021, 2022, 2025],
+        payments: [
+          { date: "2017-09-10", amount: 100, year: 2017 },
+          { date: "2018-09-10", amount: 100, year: 2018 },
+          { date: "2019-09-10", amount: 100, year: 2019 },
+          { date: "2020-09-10", amount: 100, year: 2020 },
+          { date: "2021-09-10", amount: 100, year: 2021 },
+          { date: "2022-09-10", amount: 100, year: 2022 },
+          { date: "2025-09-10", amount: 100, year: 2025 },
+        ],
       },
       {
         id: 5,
@@ -200,77 +244,11 @@ export const useMembersStore = create<MembersState>((set, get) => {
         isRetired: false,
         registeredAt: "2021-01-20",
         children: [],
-        yearPayments: [2021, 2022, 2023],
-      },
-      {
-        id: 6,
-        number: 1006,
-        idNumber: "99887766E",
-        name: "Ana Torres",
-        phone: "789 123 456",
-        email: "ana.torres@example.com",
-        dateOfBirth: "1982-09-09",
-        address: "C. de Velázquez 30, 28006 Madrid",
-        isRetired: false,
-        registeredAt: "2020-05-05",
-        children: [{ name: "Luis Torres", dateOfBirth: "2012-04-10" }],
-        yearPayments: [2020, 2021, 2022, 2023, 2025],
-      },
-      {
-        id: 7,
-        number: 1007,
-        idNumber: "33445566F",
-        name: "Miguel Sanchez",
-        phone: "456 789 123",
-        email: "miguel.sanchez@example.com",
-        dateOfBirth: "1978-03-25",
-        address: "C. de Goya 50, 28001 Madrid",
-        isRetired: true,
-        registeredAt: "2016-11-30",
-        children: [{ name: "Sara Sanchez", dateOfBirth: "2005-07-15" }],
-        yearPayments: [2016, 2017, 2018, 2019, 2020, 2021],
-      },
-      {
-        id: 8,
-        number: 1008,
-        idNumber: "44556677G",
-        name: "Elena Ruiz",
-        phone: "654 987 321",
-        email: "elena.ruiz@example.com",
-        dateOfBirth: "1992-06-12",
-        address: "C. de Atocha 15, 28012 Madrid",
-        isRetired: false,
-        registeredAt: "2019-08-25",
-        children: [{ name: "David Ruiz", dateOfBirth: "2018-11-05" }],
-        yearPayments: [2019, 2020, 2021, 2022, 2023, 2025],
-      },
-      {
-        id: 9,
-        number: 1009,
-        idNumber: "66778899H",
-        name: "Pablo Moreno",
-        phone: "321 987 654",
-        email: "pablo.moreno@example.com",
-        dateOfBirth: "1980-01-10",
-        address: "C. de la Princesa 40, 28008 Madrid",
-        isRetired: true,
-        registeredAt: "2015-04-18",
-        children: [{ name: "Lucia Moreno", dateOfBirth: "2003-09-22" }],
-        yearPayments: [2015, 2016, 2017, 2018, 2019, 2020, 2025],
-      },
-      {
-        id: 10,
-        number: 1010,
-        idNumber: "77889900I",
-        name: "Isabel Garcia",
-        phone: "987 321 654",
-        email: "isabel.garcia@example.com",
-        dateOfBirth: "1998-04-05",
-        address: "C. de Fuencarral 60, 28004 Madrid",
-        isRetired: false,
-        registeredAt: "2022-02-14",
-        children: [],
-        yearPayments: [2022, 2023, 2025],
+        payments: [
+          { date: "2021-01-20", amount: 100, year: 2021 },
+          { date: "2022-01-20", amount: 100, year: 2022 },
+          { date: "2023-01-20", amount: 100, year: 2023 },
+        ],
       },
     ],
   };

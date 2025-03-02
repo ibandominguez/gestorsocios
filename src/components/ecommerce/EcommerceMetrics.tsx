@@ -44,10 +44,7 @@ export default function EcommerceMetrics({ members }: EcommerceMetricsProps) {
               Pagos
             </span>
             <h4 className="mt-2 font-bold text-gray-800 text-title-sm dark:text-white/90">
-              {members.reduce(
-                (sum, member) => sum + member.yearPayments.length,
-                0,
-              )}
+              {members.reduce((sum, member) => sum + member.payments.length, 0)}
               <small className="text-xs text-gray-300">en total</small>
             </h4>
           </div>

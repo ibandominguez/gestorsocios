@@ -25,7 +25,7 @@ export default function Members(): ReactElement {
         onAddMember={() => {
           const newMember: Partial<Member> = {
             children: [],
-            yearPayments: [],
+            payments: [],
           };
           setMemberForm(newMember);
         }}

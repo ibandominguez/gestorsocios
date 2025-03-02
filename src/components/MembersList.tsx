@@ -4,11 +4,13 @@ import { ReactElement, useEffect, useState } from "react";
 import Input from "./form/input/InputField";
 import Select from "./form/Select";
 import { Member } from "../stores/members";
+import moment from "moment";
 
 export interface MembersListProps {
   data: Member[];
   onAddMember?: () => void;
   onSelectMember: (member: Member) => void;
+  onEditMember: (member: Member) => void;
   onDeleteMember: (member: Member) => void;
 }
 
@@ -16,6 +18,7 @@ export default function MembersList({
   data,
   onAddMember,
   onSelectMember,
+  onEditMember,
   onDeleteMember,
 }: MembersListProps): ReactElement {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -126,7 +129,10 @@ export default function MembersList({
             {filteredData.map((member) => (
               <TableRow key={member.id} className="">
                 <TableCell className="py-3">
-                  <div className="flex items-center gap-3">
+                  <div
+                    className="flex items-center gap-3 cursor-pointer"
+                    onClick={() => onSelectMember(member)}
+                  >
                     <div className="h-[50px] w-[50px] overflow-hidden rounded-md">
                       <img
                         className="rounded-full"
@@ -140,7 +146,7 @@ export default function MembersList({
                       <span className="text-gray-500 text-theme-xs dark:text-gray-400">
                         <small className="text-gray-500">Desde: </small>
                         {"  "}
-                        {member.registeredAt}
+                        {moment(member.registeredAt).format("DD/MM/YYYY")}
                       </span>
                     </div>
                   </div>
@@ -174,7 +180,7 @@ export default function MembersList({
                 </TableCell>
                 <TableCell className="py-3 text-gray-500 text-theme-sm dark:text-gray-400">
                   <span
-                    onClick={() => onSelectMember(member)}
+                    onClick={() => onEditMember(member)}
                     className="cursor-pointer material-icons-outlined p-2 text-blue-500"
                   >
                     edit

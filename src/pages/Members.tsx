@@ -5,10 +5,14 @@ import PageMeta from "../components/common/PageMeta";
 import { Modal } from "../components/ui/modal";
 import MembersList from "../components/MembersList";
 import MemberForm from "../components/MemberForm";
+import MemberCard from "../components/MemberCard";
 import { useMembersStore } from "../stores/members";
 
 export default function Members(): ReactElement {
   const [memberForm, setMemberForm] = useState<Partial<Member> | null>(null);
+  const [selectedMember, setSelectedMember] = useState<Partial<Member> | null>(
+    null,
+  );
   const { members, addMember, updateMember, deleteMember } = useMembersStore();
 
   return (
@@ -29,9 +33,20 @@ export default function Members(): ReactElement {
           };
           setMemberForm(newMember);
         }}
-        onSelectMember={setMemberForm}
+        onSelectMember={setSelectedMember}
+        onEditMember={setMemberForm}
         onDeleteMember={deleteMember}
       />
+
+      <Modal
+        isOpen={selectedMember !== null}
+        onClose={() => setSelectedMember(null)}
+        title="Ficha socio"
+        description="Aquí podrás ver todos los detalles del socio"
+        className="max-w-[700px] m-4"
+      >
+        <MemberCard member={selectedMember as Member} />
+      </Modal>
 
       <Modal
         isOpen={memberForm !== null}

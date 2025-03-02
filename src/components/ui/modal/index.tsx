@@ -115,7 +115,7 @@ export const Modal: React.FC<ModalProps> = ({
               {/* Modal footer */}
               <div className="flex items-center gap-3 px-2 mt-6 lg:justify-end">
                 <Button size="sm" variant="outline" onClick={onClose}>
-                  Cancelar
+                  Cerrar
                 </Button>
                 {Object.keys(actions).map((key) => (
                   <Button key={key} size="sm" onClick={actions[key]}>

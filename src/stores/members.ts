@@ -105,6 +105,7 @@ export const useMembersStore = create<MembersState>((set, get) => {
       member.isRetired =
         member.isRetired || now.diff(member.dateOfBirth, "years") >= 67;
       member.isNew = now.diff(moment(member.registeredAt), "years") < 1;
+      member.payments = member.payments.sort((a, b) => b.year - a.year);
       return member;
     },
     addMember: async (member: Partial<Member>) => {

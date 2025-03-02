@@ -38,6 +38,15 @@ const MemberDetails: React.FC<MemberDetailsProps> = ({ member }) => {
             Nuevo
           </Badge>
         )}
+        {member.unpaid ? (
+          <Badge size="sm" color="error">
+            Pendiente
+          </Badge>
+        ) : (
+          <Badge size="sm" color="success">
+            Activo
+          </Badge>
+        )}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <p className="text-gray-600">
@@ -72,13 +81,28 @@ const MemberDetails: React.FC<MemberDetailsProps> = ({ member }) => {
       <div className="mt-6">
         <h3 className="text-xl font-semibold text-gray-700">Hijos</h3>
         {member.children && member.children.length > 0 ? (
-          <ul className="list-disc list-inside mt-2">
-            {member.children.map((child, index) => (
-              <li key={index} className="text-gray-600">
-                {child.name} - {moment(child.dateOfBirth).format("DD/MM/YYYY")}
-              </li>
-            ))}
-          </ul>
+          <table className="min-w-full mt-2 bg-white border border-gray-200">
+            <thead>
+              <tr>
+                <th className="px-4 py-2 text-left text-gray-600 border-b">
+                  Nombre
+                </th>
+                <th className="px-4 py-2 text-left text-gray-600 border-b">
+                  Fecha de Nacimiento
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {member.children.map((child, index) => (
+                <tr key={index} className="bg-gray-50">
+                  <td className="px-4 py-2 border-b">{child.name}</td>
+                  <td className="px-4 py-2 border-b">
+                    {moment(child.dateOfBirth).format("DD/MM/YYYY")}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         ) : (
           <p className="text-gray-600">No tiene hijos.</p>
         )}
@@ -86,14 +110,32 @@ const MemberDetails: React.FC<MemberDetailsProps> = ({ member }) => {
       <div className="mt-6">
         <h3 className="text-xl font-semibold text-gray-700">Pagos</h3>
         {member.payments && member.payments.length > 0 ? (
-          <ul className="list-disc list-inside mt-2">
-            {member.payments.map((payment, index) => (
-              <li key={index} className="text-gray-600">
-                Año: {payment.year}, Cantidad: {payment.amount} Eur, Fecha pago:{" "}
-                {moment(payment.date).format("DD/MM/YYYY")}
-              </li>
-            ))}
-          </ul>
+          <table className="min-w-full mt-2 bg-white border border-gray-200">
+            <thead>
+              <tr>
+                <th className="px-4 py-2 text-left text-gray-600 border-b">
+                  Año
+                </th>
+                <th className="px-4 py-2 text-left text-gray-600 border-b">
+                  Cantidad (Eur)
+                </th>
+                <th className="px-4 py-2 text-left text-gray-600 border-b">
+                  Fecha de Pago
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {member.payments.map((payment, index) => (
+                <tr key={index} className="bg-gray-50">
+                  <td className="px-4 py-2 border-b">{payment.year}</td>
+                  <td className="px-4 py-2 border-b">{payment.amount}</td>
+                  <td className="px-4 py-2 border-b">
+                    {moment(payment.date).format("DD/MM/YYYY")}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         ) : (
           <p className="text-gray-600">No ha registrado pagos.</p>
         )}

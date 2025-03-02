@@ -163,7 +163,7 @@ export default function MembersList({
                 </TableCell>
                 <TableCell className="py-3 text-gray-500 text-theme-sm dark:text-gray-400">
                   <Badge size="sm" color={!member.unpaid ? "success" : "error"}>
-                    {!member.unpaid ? "Al corriente" : "Pendiente"}
+                    {!member.unpaid ? "Activo" : "Pendiente"}
                   </Badge>
                 </TableCell>
                 <TableCell className="py-3 text-gray-500 text-theme-sm dark:text-gray-400">

@@ -8,15 +8,18 @@ export default function SidebarWidget() {
         Aviso Importante
       </h3>
       <p className="mb-4 text-gray-500 text-theme-sm dark:text-gray-400">
-        Los datos generados en esta webapp se almacenan unicamente en este
-        navegador.
+        Los datos presentes son solo de prueba, puedes editarlos y crearlos pero
+        al reiniciar la app se perderán.
       </p>
       <a
         target="_blank"
         rel="nofollow"
-        className="flex items-center justify-center p-3 font-medium text-white rounded-lg bg-brand-500 text-theme-sm hover:bg-brand-600"
+        className="cursor-pointer flex items-center justify-center p-3 font-medium text-white rounded-lg bg-brand-500 text-theme-sm hover:bg-brand-600"
+        onClick={() => {
+          window.location.reload();
+        }}
       >
-        Descargar datos
+        Reinicar datos
       </a>
     </div>
   );

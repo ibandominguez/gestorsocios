@@ -21,12 +21,15 @@ export default function MemberForm({
     };
 
   const addPayment = () => {
+    const currentYear = new Date().getFullYear();
     setForm({
       ...form,
       payments: [
         {
-          year: new Date().getFullYear(),
-          amount: 0,
+          year: form.payments?.some((payment) => payment.year === currentYear)
+            ? currentYear + 1
+            : currentYear,
+          amount: form.isRetired ? 10 : 20,
           date: new Date().toISOString().split("T")[0],
         },
         ...(form.payments || []),

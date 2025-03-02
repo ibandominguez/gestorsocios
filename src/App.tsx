@@ -25,7 +25,7 @@ export default function App() {
   return (
     <>
       <Router>
-        <Toaster position="bottom-right" />
+        <Toaster />
         <ScrollToTop />
         <Routes>
           {/* Dashboard Layout */}

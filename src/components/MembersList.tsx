@@ -7,12 +7,14 @@ import { Member } from "../stores/members";
 
 export interface MembersListProps {
   data: Member[];
+  onAddMember?: () => void;
   onSelectMember: (member: Member) => void;
   onDeleteMember: (member: Member) => void;
 }
 
 export default function MembersList({
   data,
+  onAddMember,
   onSelectMember,
   onDeleteMember,
 }: MembersListProps): ReactElement {
@@ -71,6 +73,13 @@ export default function MembersList({
               { label: "Mostrar 3 años impago", value: "longUnpaid" },
             ]}
           />
+
+          <span
+            className="material-icons-outlined cursor-pointer"
+            onClick={onAddMember}
+          >
+            add
+          </span>
         </div>
       </div>
       <div className="max-w-full overflow-x-auto">

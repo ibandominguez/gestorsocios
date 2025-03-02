@@ -27,7 +27,9 @@ export interface Member {
 
 export interface MembersState {
   members: Member[];
+  hasValidationErrorMessage: (member: Partial<Member>) => string;
   formatMember: (member: Member) => Member;
+  addMember: (member: Partial<Member>) => Promise<void>;
   updateMember: (member: Partial<Member>) => Promise<void>;
   deleteMember: (member: Partial<Member>) => Promise<void>;
 }
@@ -40,6 +42,40 @@ export const last3Years = [
 
 export const useMembersStore = create<MembersState>((set, get) => {
   const store = {
+    hasValidationErrorMessage: (member: Partial<Member>) => {
+      const errors: string[] = [];
+      const isValidDNIorNIE = (idNumber: string) => {
+        const dniRegex = /^[XYZ]?\d{5,8}[A-Z]$/;
+        return dniRegex.test(idNumber);
+      };
+      const isValidPhoneNumber = (phone: string) => {
+        const phoneRegex = /^(?:\+34)?[6-9]\d{2}\s?\d{3}\s?\d{3}$/;
+        return phoneRegex.test(phone);
+      };
+      const isValidEmail = (email: string) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+      };
+      if (!member.number) errors.push("Número de socio es requerido");
+      if (!member.name) errors.push("Nombre es requerido");
+      if (!member.dateOfBirth) errors.push("Fecha de nacimiento es requerida");
+      if (!member.idNumber || !isValidDNIorNIE(member.idNumber))
+        errors.push("Número de identificación no es válido");
+      if (!member.address) errors.push("Dirección es requerida");
+      if (!member.phone || !isValidPhoneNumber(member.phone))
+        errors.push("Número de teléfono no es válido");
+      if (!member.email || !isValidEmail(member.email))
+        errors.push("Correo electrónico no es válido");
+      if (!member.registeredAt) errors.push("Fecha de registro es requerida");
+      if (member.children) {
+        for (const child of member.children) {
+          if (!child.name) errors.push("Nombre del hijo es requerido");
+          if (!child.dateOfBirth)
+            errors.push("Fecha de nacimiento del hijo es requerida");
+        }
+      }
+      return errors.join(", ");
+    },
     formatMember: (member: Member) => {
       const now = moment();
       member.hasUnderAgeKids = member.children.some(
@@ -53,7 +89,29 @@ export const useMembersStore = create<MembersState>((set, get) => {
         member.isRetired || now.diff(member.dateOfBirth, "years") >= 67;
       return member;
     },
+    addMember: async (member: Partial<Member>) => {
+      const validationError = get().hasValidationErrorMessage(member);
+      if (validationError) {
+        toast.error("Errores de validación: " + validationError);
+        throw new Error(validationError);
+      }
+      set({
+        members: [
+          get().formatMember({
+            id: Date.now(),
+            ...member,
+          } as Member),
+          ...get().members,
+        ],
+      });
+      toast.success("Socio añadido correctamente!");
+    },
     updateMember: async (member: Partial<Member>) => {
+      const validationError = get().hasValidationErrorMessage(member);
+      if (validationError) {
+        toast.error("Errores de validación: " + validationError);
+        throw new Error(validationError);
+      }
       set({
         members: get().members.map((old) => {
           if (old.id === member.id) {
@@ -220,8 +278,6 @@ export const useMembersStore = create<MembersState>((set, get) => {
   set({
     members: store.members.map((member) => store.formatMember(member)),
   });
-
-  console.log(get());
 
   return store;
 });

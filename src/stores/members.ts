@@ -42,8 +42,8 @@ export interface MembersState {
 
 export const last3Years = [
   moment().year(),
-  moment().subtract("-1 year").year(),
-  moment().subtract("-2 year").year(),
+  moment().subtract(1, "year").year(),
+  moment().subtract(2, "years").year(),
 ];
 
 export const useMembersStore = create<MembersState>((set, get) => {
@@ -96,7 +96,7 @@ export const useMembersStore = create<MembersState>((set, get) => {
       );
       member.longUnpaid = last3Years.every(
         (year: number) =>
-          !member.payments.some((payment) => payment.year === year),
+          !member.payments.some((payment) => last3Years.includes(payment.year)),
       );
       member.unpaid = !member.payments.some(
         (payment) => payment.year === now.year(),
@@ -245,7 +245,6 @@ export const useMembersStore = create<MembersState>((set, get) => {
         registeredAt: "2021-01-20",
         children: [],
         payments: [
-          { date: "2023-01-01", amount: 100, year: 2023 },
           { date: "2022-01-01", amount: 100, year: 2022 },
           { date: "2021-01-01", amount: 100, year: 2021 },
         ],

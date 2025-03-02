@@ -95,7 +95,7 @@ export const useMembersStore = create<MembersState>((set, get) => {
         (child: MemberChild) => now.diff(child.dateOfBirth, "years") < 18,
       );
       member.longUnpaid = last3Years.every(
-        (year: number) =>
+        () =>
           !member.payments.some((payment) => last3Years.includes(payment.year)),
       );
       member.unpaid = !member.payments.some(
@@ -182,7 +182,6 @@ export const useMembersStore = create<MembersState>((set, get) => {
         registeredAt: "2019-06-01",
         children: [{ name: "Ana Lopez", dateOfBirth: "2015-08-20" }],
         payments: [
-          { date: "2025-01-01", amount: 100, year: 2025 },
           { date: "2023-01-01", amount: 100, year: 2023 },
           { date: "2022-01-01", amount: 100, year: 2022 },
           { date: "2021-01-01", amount: 100, year: 2021 },

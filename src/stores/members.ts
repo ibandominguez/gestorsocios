@@ -9,6 +9,7 @@ export interface MemberChild {
 
 export interface Member {
   id: number;
+  number: number;
   name: string;
   dateOfBirth: string;
   idNumber: string;
@@ -73,6 +74,7 @@ export const useMembersStore = create<MembersState>((set, get) => {
     members: [
       {
         id: 1,
+        number: 1001,
         idNumber: "45773907H",
         name: "Juan Antonio Betancor Cabrera",
         phone: "666 777 888",
@@ -88,6 +90,7 @@ export const useMembersStore = create<MembersState>((set, get) => {
       },
       {
         id: 2,
+        number: 1002,
         idNumber: "12345678A",
         name: "Maria Lopez",
         phone: "123 456 789",
@@ -101,6 +104,7 @@ export const useMembersStore = create<MembersState>((set, get) => {
       },
       {
         id: 3,
+        number: 1003,
         idNumber: "87654321B",
         name: "Carlos Martinez",
         phone: "987 654 321",
@@ -114,6 +118,7 @@ export const useMembersStore = create<MembersState>((set, get) => {
       },
       {
         id: 4,
+        number: 1004,
         idNumber: "11223344C",
         name: "Laura Fernandez",
         phone: "654 321 987",
@@ -127,6 +132,7 @@ export const useMembersStore = create<MembersState>((set, get) => {
       },
       {
         id: 5,
+        number: 1005,
         idNumber: "55667788D",
         name: "Javier Gomez",
         phone: "321 654 987",
@@ -140,6 +146,7 @@ export const useMembersStore = create<MembersState>((set, get) => {
       },
       {
         id: 6,
+        number: 1006,
         idNumber: "99887766E",
         name: "Ana Torres",
         phone: "789 123 456",
@@ -153,6 +160,7 @@ export const useMembersStore = create<MembersState>((set, get) => {
       },
       {
         id: 7,
+        number: 1007,
         idNumber: "33445566F",
         name: "Miguel Sanchez",
         phone: "456 789 123",
@@ -166,6 +174,7 @@ export const useMembersStore = create<MembersState>((set, get) => {
       },
       {
         id: 8,
+        number: 1008,
         idNumber: "44556677G",
         name: "Elena Ruiz",
         phone: "654 987 321",
@@ -179,6 +188,7 @@ export const useMembersStore = create<MembersState>((set, get) => {
       },
       {
         id: 9,
+        number: 1009,
         idNumber: "66778899H",
         name: "Pablo Moreno",
         phone: "321 987 654",
@@ -192,6 +202,7 @@ export const useMembersStore = create<MembersState>((set, get) => {
       },
       {
         id: 10,
+        number: 1010,
         idNumber: "77889900I",
         name: "Isabel Garcia",
         phone: "987 321 654",

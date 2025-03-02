@@ -64,14 +64,14 @@ export default function MemberForm({
   return (
     <form onSubmit={handleOnSubmit}>
       <Input
-        name="id"
+        name="number"
         type="number"
         placeholder="Identificador único del socio"
         label="Número de socio"
         className="text-xs"
         readOnly={true}
-        value={form.id}
-        onChange={makeKeyHandler("id")}
+        value={form.number}
+        onChange={makeKeyHandler("number")}
       />
 
       <Input

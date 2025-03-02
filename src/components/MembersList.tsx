@@ -71,6 +71,7 @@ export default function MembersList({
               { label: "Mostrar con hijos menores", value: "hasUnderAgeKids" },
               { label: "Mostrar jubilados", value: "isRetired" },
               { label: "Mostrar 3 años impago", value: "longUnpaid" },
+              { label: "Mostrar socios nuevos", value: "isNew" },
             ]}
           />
 
@@ -152,12 +153,17 @@ export default function MembersList({
                   )}
                   {member.longUnpaid && (
                     <Badge size="sm" color="error">
-                      3 años de impago
+                      3 impagos
                     </Badge>
                   )}
                   {member.hasUnderAgeKids && (
                     <Badge size="sm" color="warning">
-                      Hijos menores
+                      Menores
+                    </Badge>
+                  )}
+                  {member.isNew && (
+                    <Badge size="sm" color="success">
+                      Nuevo
                     </Badge>
                   )}
                 </TableCell>

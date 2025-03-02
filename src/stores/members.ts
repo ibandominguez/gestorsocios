@@ -27,6 +27,7 @@ export interface Member {
   longUnpaid?: boolean;
   unpaid?: boolean;
   registeredAt: string;
+  isNew?: boolean;
   children: MemberChild[];
   payments: Payment[];
 }
@@ -103,6 +104,7 @@ export const useMembersStore = create<MembersState>((set, get) => {
       );
       member.isRetired =
         member.isRetired || now.diff(member.dateOfBirth, "years") >= 67;
+      member.isNew = now.diff(moment(member.registeredAt), "years") < 1;
       return member;
     },
     addMember: async (member: Partial<Member>) => {
@@ -161,12 +163,12 @@ export const useMembersStore = create<MembersState>((set, get) => {
           { name: "Josue Betancor Machín", dateOfBirth: "2010-03-16" },
         ],
         payments: [
-          { date: "2025-01-01", amount: 100, year: 2025 },
-          { date: "2024-01-01", amount: 100, year: 2024 },
-          { date: "2023-01-01", amount: 100, year: 2023 },
-          { date: "2022-01-01", amount: 100, year: 2022 },
-          { date: "2021-01-01", amount: 100, year: 2021 },
-          { date: "2020-01-01", amount: 100, year: 2020 },
+          { date: "2025-01-01", amount: 20, year: 2025 },
+          { date: "2024-01-01", amount: 20, year: 2024 },
+          { date: "2023-01-01", amount: 20, year: 2023 },
+          { date: "2022-01-01", amount: 20, year: 2022 },
+          { date: "2021-01-01", amount: 20, year: 2021 },
+          { date: "2020-01-01", amount: 20, year: 2020 },
         ],
       },
       {
@@ -182,11 +184,11 @@ export const useMembersStore = create<MembersState>((set, get) => {
         registeredAt: "2019-06-01",
         children: [{ name: "Ana Lopez", dateOfBirth: "2015-08-20" }],
         payments: [
-          { date: "2023-01-01", amount: 100, year: 2023 },
-          { date: "2022-01-01", amount: 100, year: 2022 },
-          { date: "2021-01-01", amount: 100, year: 2021 },
-          { date: "2020-01-01", amount: 100, year: 2020 },
-          { date: "2019-01-01", amount: 100, year: 2019 },
+          { date: "2023-01-01", amount: 20, year: 2023 },
+          { date: "2022-01-01", amount: 20, year: 2022 },
+          { date: "2021-01-01", amount: 20, year: 2021 },
+          { date: "2020-01-01", amount: 20, year: 2020 },
+          { date: "2019-01-01", amount: 20, year: 2019 },
         ],
       },
       {
@@ -202,11 +204,11 @@ export const useMembersStore = create<MembersState>((set, get) => {
         registeredAt: "2018-03-15",
         children: [],
         payments: [
-          { date: "2025-01-01", amount: 100, year: 2025 },
-          { date: "2021-01-01", amount: 100, year: 2021 },
-          { date: "2020-01-01", amount: 100, year: 2020 },
-          { date: "2019-01-01", amount: 100, year: 2019 },
-          { date: "2018-01-01", amount: 100, year: 2018 },
+          { date: "2025-01-01", amount: 20, year: 2025 },
+          { date: "2021-01-01", amount: 20, year: 2021 },
+          { date: "2020-01-01", amount: 20, year: 2020 },
+          { date: "2019-01-01", amount: 20, year: 2019 },
+          { date: "2018-01-01", amount: 20, year: 2018 },
         ],
       },
       {
@@ -222,13 +224,11 @@ export const useMembersStore = create<MembersState>((set, get) => {
         registeredAt: "2017-09-10",
         children: [{ name: "Pedro Fernandez", dateOfBirth: "2000-12-01" }],
         payments: [
-          { date: "2025-01-01", amount: 100, year: 2025 },
-          { date: "2022-01-01", amount: 100, year: 2022 },
-          { date: "2021-01-01", amount: 100, year: 2021 },
-          { date: "2020-01-01", amount: 100, year: 2020 },
-          { date: "2019-01-01", amount: 100, year: 2019 },
-          { date: "2018-01-01", amount: 100, year: 2018 },
-          { date: "2017-01-01", amount: 100, year: 2017 },
+          { date: "2021-01-01", amount: 20, year: 2021 },
+          { date: "2020-01-01", amount: 20, year: 2020 },
+          { date: "2019-01-01", amount: 20, year: 2019 },
+          { date: "2018-01-01", amount: 20, year: 2018 },
+          { date: "2017-01-01", amount: 20, year: 2017 },
         ],
       },
       {
@@ -241,12 +241,9 @@ export const useMembersStore = create<MembersState>((set, get) => {
         dateOfBirth: "1995-02-18",
         address: "C. de Serrano 25, 35500 Arrecife, Lanzarote",
         isRetired: false,
-        registeredAt: "2021-01-20",
+        registeredAt: "2025-01-01",
         children: [],
-        payments: [
-          { date: "2022-01-01", amount: 100, year: 2022 },
-          { date: "2021-01-01", amount: 100, year: 2021 },
-        ],
+        payments: [{ date: "2025-01-01", amount: 20, year: 2025 }],
       },
     ],
   };

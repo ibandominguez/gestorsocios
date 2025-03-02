@@ -215,7 +215,7 @@ export default function MemberForm({
               name={`child-dob-${index}`}
               type="date"
               placeholder="Fecha de nacimiento"
-              label="Fecha de Nacimiento"
+              label="F. Nacimiento"
               className="text-xs w-full"
               value={child.dateOfBirth}
               onChange={(value) =>

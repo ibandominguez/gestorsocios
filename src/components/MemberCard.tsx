@@ -1,5 +1,6 @@
 import React from "react";
 import { Member } from "../stores/members";
+import Badge from "./ui/badge/Badge";
 import moment from "moment";
 
 export interface MemberDetailsProps {
@@ -8,56 +9,93 @@ export interface MemberDetailsProps {
 
 const MemberDetails: React.FC<MemberDetailsProps> = ({ member }) => {
   return (
-    <div className="">
-      <h2 className="text-2xl font-bold mb-4">{member.name}</h2>
-      <p>
-        <strong>Número de socio:</strong> {member.idNumber}
-      </p>
-      <p>
-        <strong>Teléfono:</strong> {member.phone}
-      </p>
-      <p>
-        <strong>Email:</strong> {member.email}
-      </p>
-      <p>
-        <strong>Fecha de nacimiento:</strong> {member.dateOfBirth}
-      </p>
-      <p>
-        <strong>Dirección:</strong> {member.address}
-      </p>
-      <p>
-        <strong>Jubilado:</strong> {member.isRetired ? "Yes" : "No"}
-      </p>
-      <p>
-        <strong>Fecha de registro:</strong> {member.registeredAt}
-      </p>
-      <div className="mt-4">
-        <h3 className="text-xl font-semibold">hijos</h3>
+    <div className="bg-gray-50 p-3">
+      <div className="flex items-center">
+        <img
+          className="h-[50px] w-[50px] overflow-hidden rounded-full"
+          src={`https://ui-avatars.com/api/?name=${member.name.split(" ").join("+")}&size=40`}
+        />
+        <h2 className="text-3xl ml-3 font-bold text-gray-800">{member.name}</h2>
+      </div>
+      <div className="my-3">
+        {member.isRetired && (
+          <Badge size="sm" color="warning">
+            Retirado
+          </Badge>
+        )}
+        {member.longUnpaid && (
+          <Badge size="sm" color="error">
+            3 impagos
+          </Badge>
+        )}
+        {member.hasUnderAgeKids && (
+          <Badge size="sm" color="warning">
+            Menores
+          </Badge>
+        )}
+        {member.isNew && (
+          <Badge size="sm" color="success">
+            Nuevo
+          </Badge>
+        )}
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <p className="text-gray-600">
+          <strong className="font-semibold">Número socio:</strong>{" "}
+          {member.number}
+        </p>
+        <p className="text-gray-600">
+          <strong className="font-semibold">DNI/NIE:</strong> {member.idNumber}
+        </p>
+        <p className="text-gray-600">
+          <strong className="font-semibold">Teléfono:</strong> {member.phone}
+        </p>
+        <p className="text-gray-600">
+          <strong className="font-semibold">Email:</strong> {member.email}
+        </p>
+        <p className="text-gray-600">
+          <strong className="font-semibold">Fecha de nacimiento:</strong>{" "}
+          {moment(member.dateOfBirth).format("DD/MM/YYYY")}
+        </p>
+        <p className="text-gray-600">
+          <strong className="font-semibold">Dirección:</strong> {member.address}
+        </p>
+        <p className="text-gray-600">
+          <strong className="font-semibold">Jubilado:</strong>{" "}
+          {member.isRetired ? "Sí" : "No"}
+        </p>
+        <p className="text-gray-600">
+          <strong className="font-semibold">Fecha de registro:</strong>{" "}
+          {moment(member.registeredAt).format("DD/MM/YYYY")}
+        </p>
+      </div>
+      <div className="mt-6">
+        <h3 className="text-xl font-semibold text-gray-700">Hijos</h3>
         {member.children && member.children.length > 0 ? (
-          <ul className="list-disc list-inside">
+          <ul className="list-disc list-inside mt-2">
             {member.children.map((child, index) => (
-              <li key={index}>
+              <li key={index} className="text-gray-600">
                 {child.name} - {moment(child.dateOfBirth).format("DD/MM/YYYY")}
               </li>
             ))}
           </ul>
         ) : (
-          <p>No tiene hijos.</p>
+          <p className="text-gray-600">No tiene hijos.</p>
         )}
       </div>
-      <div className="mt-4">
-        <h3 className="text-xl font-semibold">Pagos</h3>
+      <div className="mt-6">
+        <h3 className="text-xl font-semibold text-gray-700">Pagos</h3>
         {member.payments && member.payments.length > 0 ? (
-          <ul className="list-disc list-inside">
+          <ul className="list-disc list-inside mt-2">
             {member.payments.map((payment, index) => (
-              <li key={index}>
-                Año: {payment.year}, Cantidad: {payment.amount}Eur, Fecha pago:{" "}
+              <li key={index} className="text-gray-600">
+                Año: {payment.year}, Cantidad: {payment.amount} Eur, Fecha pago:{" "}
                 {moment(payment.date).format("DD/MM/YYYY")}
               </li>
             ))}
           </ul>
         ) : (
-          <p>No ha registrado pagos.</p>
+          <p className="text-gray-600">No ha registrado pagos.</p>
         )}
       </div>
     </div>
